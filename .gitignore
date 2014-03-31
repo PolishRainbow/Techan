@@ -1,5 +1,6 @@
 # static html
 *.html
+*.json
 
 # instance-config
 /inc/instance-config.php
