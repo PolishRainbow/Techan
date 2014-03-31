@@ -6,7 +6,7 @@
 		active_page = "page";
 	</script>
 	{% include 'header.html' %}
-	<title>{{ title }}</title>
+	<title>{{ title }} - Tęchan.org.pl</title>
 </head>
 <body>
 	{% if pm %}<div class="top_notice">You have <a href="?/PM/{{ pm.id }}">an unread PM</a>{% if pm.waiting > 0 %}, plus {{ pm.waiting }} more waiting{% endif %}.</div><hr>{% endif %}
