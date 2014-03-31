@@ -13,6 +13,10 @@
 # templates cache
 /templates/cache
 
+# generated files
+/attentionbar.txt
+/sitemap.xml
+
 # other stuff
 .DS_Store
 thumbs.db
