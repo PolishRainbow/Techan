@@ -1,0 +1,6 @@
+deny from all
+
+<FilesMatch "\.png$">
+  deny from none
+  allow from all
+</FilesMatch>
