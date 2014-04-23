@@ -201,6 +201,10 @@ function loadConfig() {
 		$config['additional_javascript_url'] = $config['root'];
 	if (!isset($config['uri_flags']))
 		$config['uri_flags'] = $config['root'] . 'static/flags/%s.png';
+	if (!isset($config['user_flag']))
+		$config['user_flag'] = false;
+	if (!isset($config['user_flags']))
+		$config['user_flags'] = [];
 
 	if ($config['root_file']) {
 		chdir($config['root_file']);
@@ -230,6 +234,12 @@ function loadConfig() {
 		require_once 'inc/lib/recaptcha/recaptchalib.php';
 	if ($config['cache']['enabled'])
 		require_once 'inc/cache.php';
+
+	if (in_array('webm', $config['allowed_ext_files'])) {
+		require_once 'inc/lib/webm/posthandler.php';
+		event_handler('post', 'postHandler');
+	}
+
 	event('load-config');
 	
 	if ($config['debug']) {
@@ -604,17 +614,27 @@ function hasPermission($action = null, $board = null, $_mod = null) {
 	return true;
 }
 
-function listBoards() {
+function listBoards($just_uri = false) {
 	global $config;
 
-	if ($config['cache']['enabled'] && ($boards = cache::get('all_boards')))
+	$just_uri ? $cache_name = 'all_boards_uri' : $cache_name = 'all_boards';
+
+	if ($config['cache']['enabled'] && ($boards = cache::get($cache_name)))
 		return $boards;
 
-	$query = query("SELECT * FROM ``boards`` ORDER BY `uri`") or error(db_error());
-	$boards = $query->fetchAll();
-
+	if (!$just_uri) {
+		$query = query("SELECT * FROM ``boards`` ORDER BY `uri`") or error(db_error());
+		$boards = $query->fetchAll();
+	} else {
+		$boards = array();
+		$query = query("SELECT `uri` FROM ``boards``") or error(db_error());
+		while ($board = $query->fetchColumn()) {
+			$boards[] = $board;
+		}
+	}
+ 
 	if ($config['cache']['enabled'])
-		cache::set('all_boards', $boards);
+		cache::set($cache_name, $boards);
 
 	return $boards;
 }
@@ -1269,7 +1289,9 @@ function make_comment_hex($str) {
 	if (function_exists('iconv')) {
 		// remove diacritics and other noise
 		// FIXME: this removes cyrillic entirely
-		$str = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $str);
+		$oldstr = $str;
+		$str = @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $str);
+		if (!$str) $str = $oldstr;
 	}
 
 	$str = strtolower($str);
