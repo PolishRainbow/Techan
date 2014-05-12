@@ -78,6 +78,15 @@ links may be helpful for you as well:
 	[irc.datnode.net #tinyboard](irc://irc.datnode.net/tinyboard).
 *	You may find help at [tinyboard.org](http://tinyboard.org/#help).
 
+Donations
+---------
+Do you like our work? You can motivate us financially to do better ;)
+* Bitcoin: [![tip for next commit](http://tip4commit.com/projects/708.svg)](http://tip4commit.com/projects/708)
+
+You can also ask us to develop some feature specially for you <3. Join our IRC
+channel and ask for a quote (there are a few of us, who work with the codebase
+and are skilled enough to develop such features pretty quickly).
+
 CLI tools
 -----------------
 There are a few command line interface tools, based on Tinyboard-Tools. These need
@@ -93,6 +102,21 @@ Localisation
 Wanting to have vichan in your language? You can contribute your translations at this URL:
 
 https://www.transifex.com/projects/p/tinyboard-vichan-devel/
+
+Oekaki
+------
+vichan makes use of [wPaint](https://github.com/websanova/wPaint) for oekaki. After you pull the repository, however, you will need to download wPaint separately using git's `submodule` feature. Use the following commands:
+
+```
+git submodule init
+git submodule update
+```
+
+To enable oekaki, add all the scripts listed in `js/oekaki.js` to your `instance-config.php`.
+
+WebM support
+------------
+Read `inc/lib/webm/README.md` for information about enabling webm.
 
 License
 --------

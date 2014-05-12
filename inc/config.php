@@ -538,7 +538,7 @@
 	$config['user_flag'] = false;
 	
 	// List of user_flag the user can choose. Flags must be placed in the directory set by $config['uri_flags']
-	$config['user_flags'] = [];
+	$config['user_flags'] = array();
 	/* example: 
 	$config['user_flags'] = array (
 		'nz' => 'Nazi',
@@ -1096,9 +1096,9 @@
 
 	// Static images. These can be URLs OR base64 (data URI scheme). These are only used if
 	// $config['font_awesome'] is false (default).
-	// $config['image_sticky']	= 'static/sticky.gif';
+	// $config['image_sticky']	= 'static/sticky.png';
 	// $config['image_locked']	= 'static/locked.gif';
-	// $config['image_bumplocked']	= 'static/sage.gif'.
+	// $config['image_bumplocked']	= 'static/sage.png'.
 
 	// If you want to put images and other dynamic-static stuff on another (preferably cookieless) domain.
 	// This will override $config['root'] and $config['dir']['...'] directives. "%s" will get replaced with
@@ -1208,7 +1208,7 @@
 	// When moving a thread to another board and choosing to keep a "shadow thread", an automated post (with
 	// a capcode) will be made, linking to the new location for the thread. "%s" will be replaced with a
 	// standard cross-board post citation (>>>/board/xxx)
-	$config['mod']['shadow_mesage'] = 'Moved to %s.';
+	$config['mod']['shadow_mesage'] = _('Moved to %s.');
 	// Capcode to use when posting the above message.
 	$config['mod']['shadow_capcode'] = 'Mod';
 	// Name to use when posting the above message. If false, $config['anonymous'] will be used.
@@ -1433,6 +1433,9 @@
 	// 	'db',
 	// );
 
+	// Allow OP to remove arbitrary posts in his thread
+	$config['user_moderation'] = false;
+
 /*
  * ====================
  *  Public post search
@@ -1519,6 +1522,23 @@
 	// 	if (!hasPermission($config['mod']['something']))
 	// 		error($config['error']['noaccess']);
 	// 	// ...
+	// };
+
+	// You can also enable themes (like ukko) in mod panel like this:
+	// require_once("templates/themes/ukko/theme.php");
+	//
+	// $config['mod']['custom_pages']['/\*/'] = function() {
+	//        global $mod;
+	//
+	//        $ukko = new ukko();
+	//        $ukko->settings = array();
+	//        $ukko->settings['uri'] = '*';
+	//        $ukko->settings['title'] = 'derp';
+	//        $ukko->settings['subtitle'] = 'derpity';
+	//        $ukko->settings['thread_limit'] = 15;
+	//        $ukko->settings['exclude'] = '';
+	//
+	//        echo $ukko->build($mod);
 	// };
 
 	// Example: Add links to dashboard (will all be in a new "Other" category).

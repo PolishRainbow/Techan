@@ -81,11 +81,17 @@ function error($message, $priority = true, $debug_stuff = false) {
 	
 	if (defined('STDIN')) {
 		// Running from CLI
-		die('Error: ' . $message . "\n");
+		echo('Error: ' . $message . "\n");
+		debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+		die();
 	}
 
 	if ($config['debug'] && isset($db_error)) {
 		$debug_stuff = array_combine(array('SQLSTATE', 'Error code', 'Error message'), $db_error);
+	}
+
+	if ($config['debug']) {
+		$debug_stuff['backtrace'] = debug_backtrace();
 	}
 
 	// Return the bad request header, necessary for AJAX posts
