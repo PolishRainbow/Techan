@@ -1,7 +1,7 @@
 Sitemap: http://xn--tchan-j0a.org.pl/sitemap.xml
 
 User-agent: *
-
+Disallow:
 
 # Blocked bots
 User-agent: MJ12bot
